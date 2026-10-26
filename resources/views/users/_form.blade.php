@@ -12,6 +12,7 @@
 <select name="role" required style="width:100%; padding:10px; margin:6px 0 14px">
     <option value="staff" @selected(old('role', $user->role ?? 'staff') === 'staff')>Staff</option>
     <option value="admin" @selected(old('role', $user->role ?? '') === 'admin')>Admin / Owner</option>
+    <option value="customer" @selected(old('role', $user->role ?? '') === 'customer')>Pelanggan</option>
 </select>
 @error('role')
 <div class="error">{{ $message }}</div> @enderror

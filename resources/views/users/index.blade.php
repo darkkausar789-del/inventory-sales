@@ -27,7 +27,8 @@
                     <tr>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->role === 'admin' ? 'Admin / Owner' : 'Staff' }}</td>
+                        <td>{{ ['admin' => 'Owner', 'staff' => 'Staff', 'customer' => 'Pelanggan'][$user->role] ?? $user->role }}
+                        </td>
                         <td>
                             <a class="btn btn-warning" href="{{ route('users.edit', $user) }}">Edit</a>
                             @if ($user->id !== auth()->id())

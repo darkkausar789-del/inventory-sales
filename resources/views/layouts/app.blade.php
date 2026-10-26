@@ -139,14 +139,21 @@
 <body>
     <nav>
         <a href="{{ route('dashboard') }}"><strong>Inventory</strong></a>
-        <a href="{{ route('dashboard') }}">Dashboard</a>
-        <a href="{{ route('products.index') }}">Produk</a>
-        <a href="{{ route('purchases.index') }}">Pembelian</a>
-        <a href="{{ route('sales.index') }}">Penjualan</a>
-        @if (auth()->user()->isAdmin())
-            <a href="{{ route('categories.index') }}">Kategori</a>
-            <a href="{{ route('suppliers.index') }}">Supplier</a>
-            <a href="{{ route('users.index') }}">Pengguna</a>
+
+        @if (auth()->user()->isCustomer())
+            <a href="{{ route('catalog.index') }}">Katalog</a>
+            <a href="{{ route('sales.create') }}">Belanja</a>
+            <a href="{{ route('sales.index') }}">Pesanan Saya</a>
+        @else
+            <a href="{{ route('dashboard') }}">Dashboard</a>
+            <a href="{{ route('products.index') }}">Produk</a>
+            <a href="{{ route('purchases.index') }}">Pembelian</a>
+            <a href="{{ route('sales.index') }}">Penjualan</a>
+            @if (auth()->user()->isAdmin())
+                <a href="{{ route('categories.index') }}">Kategori</a>
+                <a href="{{ route('suppliers.index') }}">Supplier</a>
+                <a href="{{ route('users.index') }}">Pengguna</a>
+            @endif
         @endif
         <span class="spacer"></span>
         <span style="color:#9ca3af">{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>

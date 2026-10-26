@@ -22,6 +22,11 @@ class DatabaseSeeder extends Seeder
             ['email' => 'staff@example.com'],
             ['name' => 'Staff Gudang', 'password' => 'password', 'role' => 'staff']
         );
+        
+        User::firstOrCreate(
+            ['email' => 'pelanggan@example.com'],
+            ['name' => 'Pelanggan Demo', 'password' => 'password', 'role' => 'customer']
+        );
 
         // Kategori
         $minuman = Category::firstOrCreate(['name' => 'Minuman']);

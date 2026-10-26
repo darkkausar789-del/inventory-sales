@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.attempt');
 });
 
 Route::middleware('auth')->group(function () {
@@ -21,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-// Khusus admin
+// Khusus Owner
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('categories', CategoryController::class)->except('show');
     Route::resource('suppliers', SupplierController::class)->except('show');
@@ -31,9 +34,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('sales/{sale}/cancel', [SaleController::class, 'cancel'])->name('sales.cancel');
 });
 
-// Admin dan staff
-Route::middleware('auth')->group(function () {
+// Owner dan Staff (data internal)
+Route::middleware(['auth', 'role:admin,staff'])->group(function () {
     Route::resource('products', ProductController::class)->only(['index', 'show']);
     Route::resource('purchases', PurchaseController::class)->only(['index', 'create', 'store', 'show']);
+});
+
+// Semua peran yang login
+Route::middleware(['auth', 'role:admin,staff,customer'])->group(function () {
+    Route::get('/katalog', [CatalogController::class, 'index'])->name('catalog.index');
     Route::resource('sales', SaleController::class)->only(['index', 'create', 'store', 'show']);
 });

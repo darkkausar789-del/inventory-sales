@@ -70,6 +70,9 @@
 
             <button type="submit">Login</button>
         </form>
+        <p style="text-align:center; font-size:14px">
+            Belum punya akun? <a href="{{ route('register') }}">Daftar sebagai pelanggan</a>
+        </p>
     </div>
 </body>
 

@@ -58,5 +58,10 @@
                 <button class="btn btn-danger" type="submit">Batalkan Transaksi</button>
             </form>
         @endif
+        @if (!auth()->user()->isAdmin() && $sale->status === 'completed')
+            <p style="font-size:13px; color:#6b7280; margin-top:16px">
+                Pembatalan transaksi hanya dapat dilakukan oleh Owner.
+            </p>
+        @endif
     </div>
 @endsection

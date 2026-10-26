@@ -10,6 +10,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        if (auth()->user()->isCustomer()) {
+            return redirect()->route('catalog.index');
+        }
         $completedSales = Sale::where('status', 'completed');
 
         $stats = [

@@ -7,6 +7,7 @@ use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class SaleController extends Controller
@@ -23,7 +24,7 @@ class SaleController extends Controller
         $user = $request->user();
 
         $sales = Sale::with('user')
-            // staff hanya melihat transaksinya sendiri
+            // selain owner hanya melihat transaksinya sendiri
             ->when(!$user->isAdmin(), fn($q) => $q->where('user_id', $user->id))
             ->when($request->q, fn($q, $s) => $q->where('sale_number', 'like', "%{$s}%"))
             ->when($request->status, fn($q, $s) => $q->where('status', $s))
@@ -36,14 +37,23 @@ class SaleController extends Controller
         return view('sales.index', compact('sales'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $productOptions = Product::orderBy('name')->get()->map(fn($p) => [
-            'id' => $p->id,
-            'label' => $p->sku . ' - ' . $p->name
-                . ' (stok ' . $p->stock . ') - Rp '
-                . number_format($p->selling_price, 0, ',', '.'),
-        ])->values();
+        $isCustomer = $request->user()->isCustomer();
+
+        $productOptions = Product::where('stock', '>', 0) // produk habis tidak bisa dipilih
+            ->orderBy('name')
+            ->get()
+            ->map(function ($p) use ($isCustomer) {
+                $name = $isCustomer
+                    ? $p->name
+                    : $p->sku . ' - ' . $p->name . ' (stok ' . $p->stock . ')';
+
+                return [
+                    'id' => $p->id,
+                    'label' => $name . ' - Rp ' . number_format($p->selling_price, 0, ',', '.'),
+                ];
+            })->values();
 
         return view('sales.create', compact('productOptions'));
     }
@@ -53,11 +63,16 @@ class SaleController extends Controller
         // harga TIDAK diminta dari browser; hanya produk dan kuantitas
         $data = $request->validate([
             'items' => ['required', 'array', 'min:1'],
-            'items.*.product_id' => ['required', 'exists:products,id', 'distinct'],
+            'items.*.product_id' => [
+                'required',
+                Rule::exists('products', 'id')->whereNull('deleted_at'),
+                'distinct',
+            ],
             'items.*.quantity' => ['required', 'integer', 'min:1'],
         ], [
             'items.required' => 'Tambahkan minimal satu item.',
             'items.*.product_id.distinct' => 'Produk yang sama tidak boleh dipilih dua kali.',
+            'items.*.product_id.exists' => 'Produk tidak tersedia.',
             'items.*.quantity.min' => 'Kuantitas harus lebih dari 0.',
         ]);
 
