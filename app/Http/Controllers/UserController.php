@@ -35,7 +35,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'email', 'max:100', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', Rule::inin(['admin', 'staff', 'customer'])],
+            'role' => ['required', Rule::in(['admin', 'staff', 'customer'])],
         ]);
 
         User::create($data); // password di-hash otomatis lewat casts()
