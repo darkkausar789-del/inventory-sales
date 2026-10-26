@@ -208,31 +208,34 @@ serta pembelian multi-item mengurangi stok.
 ## 11. Screenshots
 
 ### Login
-![Login](docs/screenshots/01-login.png)
+![Login](docs/screenshots/login.png)
 
 ### Dashboard
-![Dashboard](docs/screenshots/02-dashboard.png)
+![Dashboard](docs/screenshots/dashboard.png)
 
 ### Daftar Produk
-![Produk](docs/screenshots/03-produk.png)
+![Produk](docs/screenshots/produk.png)
+
+### Pembelian Baru
+![Pembelian Baru](docs/screenshots/pembelian.png)
 
 ### Penjualan Baru
-![Penjualan Baru](docs/screenshots/04-penjualan-baru.png)
+![Penjualan Baru](docs/screenshots/penjualan.png)
 
 ### Detail Penjualan
-![Detail Penjualan](docs/screenshots/05-detail-penjualan.png)
+![Detail Penjualan](docs/screenshots/detail-penjualan.png)
 
 ### Penolakan Stok Tidak Cukup
-![Stok Tidak Cukup](docs/screenshots/06-stok-tidak-cukup.png)
+![Stok Tidak Cukup](docs/screenshots/stok-tidak-cukup.png)
 
 ### Manajemen Pengguna (Admin)
-![Pengguna](docs/screenshots/07-pengguna.png)
+![Pengguna](docs/screenshots/pengguna.png)
 
 ### Akses Staff Ditolak (403)
-![403](docs/screenshots/08-403-staff.png)
+![403](docs/screenshots/403-staff.png)
 
 ### Hasil Automated Test
-![Test](docs/screenshots/09-hasil-test.png)
+![Test](docs/screenshots/hasil-test.png)
 
 ## 12. Known Limitations
 
