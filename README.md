@@ -62,8 +62,9 @@ Buka http://127.0.0.1:8000
 |-------|---------------------|----------|
 | Admin | admin@example.com   | password |
 | Staff | staff@example.com   | password |
+| Customer | pelanggan@example.com | password |
 
-Akun Customer tidak di-seed: daftar sendiri lewat halaman Register (selalu dibuat sebagai
+Customer baru juga bisa mendaftar sendiri lewat halaman Register (selalu dibuat sebagai
 Customer, role tidak bisa diinjeksi lewat input).
 
 Akun di atas hanya data dummy untuk demo.
